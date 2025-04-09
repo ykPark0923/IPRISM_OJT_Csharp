@@ -8,19 +8,17 @@ namespace ArrayTest
     {
         static void Main(string[] args)
         {
-            Queue que = new Queue();
-            que.Enqueue(1);
-            que.Enqueue(1);
-            que.Enqueue(1);
-            que.Enqueue(1);
-            que.Enqueue(1);
-            que.Enqueue(1);
-            que.Enqueue(1);
-            que.Enqueue(1);
+            Stack stack = new Stack();
+            stack.Push(1);
+            stack.Push(1);
+            stack.Push(1);
+            stack.Push(1);
+            stack.Push(1);
+            stack.Push(1);
 
-            while(que.Count > 0)
+            while (stack.Count > 0)
             {
-                Console.WriteLine(que.Dequeue());
+                Console.WriteLine(stack.Pop());
             }
         }
     }
