@@ -9,20 +9,12 @@ namespace Property
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get; set;
         }
 
         public DateTime Birthday
         {
-            get
-            {
-                return birthday;
-            }
-            set
-            {
-                birthday = value;
-            }
+            get; set;
         }
         public int Age
         {
