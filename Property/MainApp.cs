@@ -9,7 +9,7 @@ namespace Property
 
         public string Name
         {
-            get; set;
+            get; init;
         }
 
         public DateTime Birthday
@@ -20,7 +20,7 @@ namespace Property
         {
             get
             {
-                return new DateTime(DateTime.Now.Subtract(birthday).Ticks).Year;
+                return new DateTime(DateTime.Now.Subtract(Birthday).Ticks).Year;
             }
         }
     }
@@ -34,6 +34,9 @@ namespace Property
                 Name = "서현",
                 Birthday = new DateTime(1991, 6, 28)
             };
+
+            //birth.Name = "수지";
+            birth.Birthday = new DateTime(1991, 6, 29);
 
             Console.WriteLine($"Name : {birth.Name}");
             Console.WriteLine($"Birthday : {birth.Birthday.ToShortDateString()}");
