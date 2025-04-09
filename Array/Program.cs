@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace ArrayTest
 {
@@ -7,35 +8,34 @@ namespace ArrayTest
     {
         static void Main(string[] args)
         {
-            int[][] jagged = new int[3][];
-            jagged[0] = new int[5] { 1, 2, 3, 4, 5 };
-            jagged[1] = new int[] {10, 20, 30};
-            jagged[2] = new int[] { 100, 200};
+            ArrayList list = new ArrayList();
+            for(int i=0; i<5; i++) list.Add(i);
 
-            foreach (int[] arr in jagged)
+            foreach(object obj in list)
             {
-                Console.Write($"Length : {arr.Length}, ");
-                foreach (int e in arr)
-                {
-                    Console.Write($"{e} ");
-                }
-                Console.WriteLine();
+                Console.Write($"{obj} ");
             }
+            Console.WriteLine();
 
-            int[][] jagged2 = new int[2][]
-            {
-                new int[] {1000, 2000},
-                new int[4] {6, 7, 8, 9} };
 
-            foreach (int[] arr in jagged2)
+
+
+            list.RemoveAt(2);
+            foreach (object obj in list)
             {
-                Console.Write($"Length : {arr.Length}, ");
-                foreach (int e in arr)
-                {
-                    Console.Write($"{e} ");
-                }
-                Console.WriteLine();
+                Console.Write($"{obj} ");
             }
+            Console.WriteLine();
+
+
+
+            list.Insert(2, 2);
+            foreach (object obj in list)
+            {
+                Console.Write($"{obj} ");
+            }
+            Console.WriteLine();
+
         }
     }
 }
