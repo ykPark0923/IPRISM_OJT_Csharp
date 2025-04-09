@@ -1,32 +1,64 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
-namespace Array
+namespace ArrayTest
 {
     internal class Program
     {
+        private static bool CheckPassed(int score)
+        {
+            return score >= 60;
+        }
+
+        private static void Print(int value)
+        {
+            Console.Write($"{value} ");
+        }
+
         static void Main(string[] args)
         {
-            string[] array1 = new string[3] { "안녕", "Hello", "Halo" };
-            Console.WriteLine("array1...");
-            foreach (string greeting in array1)
-            {
-                Console.WriteLine(greeting);
-            }
+            int[] scores = new int[] { 80, 74, 81, 90, 34 };
 
-            string[] array2 = new string[] { "안녕", "Hello", "Halo" };
-            Console.WriteLine("array2...");
-            foreach (string greeting in array2)
+            foreach (int score in scores)
             {
-                Console.WriteLine(greeting);
+                Console.Write($"{score} ");
             }
+            Console.WriteLine();
 
+            Array.Sort( scores );
+            Array.ForEach<int>(scores, new Action<int>(Print));
+            Console.WriteLine();
 
-            string[] array3 = { "안녕", "Hello", "Halo" };
-            Console.WriteLine("array3...");
-            foreach (string greeting in array3)
-            {
-                Console.WriteLine(greeting);
-            }
+            Console.WriteLine($"Number of dimensions : {scores.Rank}");
+
+            Console.WriteLine($"Binary Search : 81 is at "+ $"{Array.BinarySearch<int>(scores, 81)}");
+
+            Console.WriteLine($"Linear Search : 91 is at " + $"{Array.IndexOf(scores, 90)}");
+
+            Console.WriteLine($"Everyone passed > : " + $"{Array.TrueForAll<int>(scores, CheckPassed)}");
+
+            int index = Array.FindIndex<int>(scores, (score) => score < 60);
+
+            scores[index] = 61;
+            Console.WriteLine($"Everyone passed ? :" + $"{Array.TrueForAll<int>(scores, CheckPassed)}");
+
+            Console.WriteLine($"Old length of scores : " + $"{scores.GetLength(0)}");
+
+            Array.Resize<int>(ref scores, 10);
+            Console.WriteLine($"New length of scores : {scores.Length}");
+
+            Array.ForEach<int>(scores, new Action<int>(Print));
+            Console.WriteLine();
+
+            Array.Clear(scores, 3, 7);
+            Array.ForEach<int>(scores, new Action<int>(Print));
+            Console.WriteLine();
+
+            int[] sliced = new int[3];
+            Array.Copy(scores, 0, sliced, 0, 3);
+            Array.ForEach<int>(sliced, new Action<int>(Print));
+            Console.WriteLine();
+
         }
     }
 }
