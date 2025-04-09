@@ -8,14 +8,11 @@ namespace ArrayTest
     {
         static void Main(string[] args)
         {
-            Hashtable ht = new Hashtable();
-            ht["book"] = "책";
-            ht["cook"] = "요리사";
-            ht["tweet"] = "지저귀다";
+            int[] arr = { 123, 456, 789 };
 
-            Console.WriteLine(ht["book"]);
-            Console.WriteLine(ht["cook"]);
-            Console.WriteLine(ht["tweet"]);
+            ArrayList list = new ArrayList(arr);
+            Stack stack = new Stack(arr);
+            Queue queue = new Queue(arr);
         }
     }
 }
