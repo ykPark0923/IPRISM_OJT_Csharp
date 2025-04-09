@@ -1,4 +1,4 @@
-﻿namespace Property
+﻿namespace Array
 {
     internal class Program
     {

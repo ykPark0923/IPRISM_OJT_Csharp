@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Property", "Property.csproj", "{AE9D7E5D-495D-4C3A-8271-CD253D290591}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Array", "..\Array\Array.csproj", "{03CFDCDB-495D-41EC-B719-B3A14AA57EAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE9D7E5D-495D-4C3A-8271-CD253D290591}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE9D7E5D-495D-4C3A-8271-CD253D290591}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE9D7E5D-495D-4C3A-8271-CD253D290591}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE9D7E5D-495D-4C3A-8271-CD253D290591}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03CFDCDB-495D-41EC-B719-B3A14AA57EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03CFDCDB-495D-41EC-B719-B3A14AA57EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03CFDCDB-495D-41EC-B719-B3A14AA57EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03CFDCDB-495D-41EC-B719-B3A14AA57EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBA54EDC-43FB-48B7-920B-27B8D173CE09}
+	EndGlobalSection
+EndGlobal
