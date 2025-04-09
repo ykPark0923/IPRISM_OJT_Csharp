@@ -3,27 +3,25 @@ using System.Diagnostics;
 
 namespace Property
 {
-    class CTransaction
+    abstract class Product
     {
-        public string From { get; init; }
-        public string To { get; init; }
-        public int Amount { get; init; }
-
-        public override string ToString()
+        private static int serial = 0;
+        public string SerialID
         {
-            return $"{From, -10}->{To,-10}: ${Amount}";
+            get { return String.Format("{0:d5}", serial++); }
+        }
+        abstract public DateTime ProductDate
+        {
+            get;
+            set;
         }
     }
 
-    record RTransaction
+    class MyProduct : Product
     {
-        public string From { get; init; }
-        public string To { get; init; }
-        public int Amount { get; init; }
-
-        public override string ToString()
+        public override DateTime ProductDate
         {
-            return $"{From,-10}->{To,-10}: ${Amount}";
+            get; set;
         }
     }
 
@@ -31,17 +29,16 @@ namespace Property
     {
         static void Main(string[] args)
         {
-            var a = new { Name = "박상현", Age = 123 };
-            Console.WriteLine($"Name:{a.Name}, Age:{a.Age}");
+            Product product_1 = new MyProduct()
+            {ProductDate = new DateTime(2023, 1, 10)};
 
-            var b = new { Subject = "수학", Scores = new int[] { 90, 80, 7, 60 } };
+            Console.WriteLine("Product:{0}, Product Date :{1}", product_1.SerialID, product_1.ProductDate);
 
-            Console.Write($"Subject:{b.Subject}, Scores:");
-            foreach(var score in b.Scores)
-            {
-                Console.Write($"{score} ");
-            }
-            Console.WriteLine();
+            Product product_2 = new MyProduct()
+            { ProductDate = new DateTime(2023, 2, 3) };
+
+            Console.WriteLine("Product:{0}, Product Date :{1}", product_2.SerialID, product_2.ProductDate);
+
         }
     }
 }
