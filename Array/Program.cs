@@ -5,35 +5,37 @@ namespace ArrayTest
 {
     internal class Program
     {
-        static void PrintArray(System.Array array)
-        {
-            foreach (var e in array) Console.Write(e);
-            Console.WriteLine();
-        }
-
         static void Main(string[] args)
         {
-            // 'Z' - 'A' + 1 = 90-65+1 = 26
-            char[] array = new char['Z' - 'A' + 1];
-            for (int i = 0; i < array.Length; i++)
+            int[][] jagged = new int[3][];
+            jagged[0] = new int[5] { 1, 2, 3, 4, 5 };
+            jagged[1] = new int[] {10, 20, 30};
+            jagged[2] = new int[] { 100, 200};
+
+            foreach (int[] arr in jagged)
             {
-                array[i] = (char)('A' + i);
+                Console.Write($"Length : {arr.Length}, ");
+                foreach (int e in arr)
+                {
+                    Console.Write($"{e} ");
+                }
+                Console.WriteLine();
             }
 
-            PrintArray(array[..]);
-            PrintArray(array[5..]);
+            int[][] jagged2 = new int[2][]
+            {
+                new int[] {1000, 2000},
+                new int[4] {6, 7, 8, 9} };
 
-            Range range_5_10 = 5..10;
-            PrintArray(array[range_5_10]);
-
-            //뒤에서 0번째, 즉 마지막까지
-            Index last = ^0;
-            Range range_5_last = 5..last;
-
-            PrintArray(array[range_5_last]);
-
-            // 뒤에서 4번째부터 뒤에서 1번째까지
-            PrintArray(array[^4..^1]);
+            foreach (int[] arr in jagged2)
+            {
+                Console.Write($"Length : {arr.Length}, ");
+                foreach (int e in arr)
+                {
+                    Console.Write($"{e} ");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
