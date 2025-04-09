@@ -8,34 +8,20 @@ namespace ArrayTest
     {
         static void Main(string[] args)
         {
-            ArrayList list = new ArrayList();
-            for(int i=0; i<5; i++) list.Add(i);
+            Queue que = new Queue();
+            que.Enqueue(1);
+            que.Enqueue(1);
+            que.Enqueue(1);
+            que.Enqueue(1);
+            que.Enqueue(1);
+            que.Enqueue(1);
+            que.Enqueue(1);
+            que.Enqueue(1);
 
-            foreach(object obj in list)
+            while(que.Count > 0)
             {
-                Console.Write($"{obj} ");
+                Console.WriteLine(que.Dequeue());
             }
-            Console.WriteLine();
-
-
-
-
-            list.RemoveAt(2);
-            foreach (object obj in list)
-            {
-                Console.Write($"{obj} ");
-            }
-            Console.WriteLine();
-
-
-
-            list.Insert(2, 2);
-            foreach (object obj in list)
-            {
-                Console.Write($"{obj} ");
-            }
-            Console.WriteLine();
-
         }
     }
 }
