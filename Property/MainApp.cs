@@ -31,48 +31,17 @@ namespace Property
     {
         static void Main(string[] args)
         {
-            CTransaction trA = new CTransaction
+            var a = new { Name = "박상현", Age = 123 };
+            Console.WriteLine($"Name:{a.Name}, Age:{a.Age}");
+
+            var b = new { Subject = "수학", Scores = new int[] { 90, 80, 7, 60 } };
+
+            Console.Write($"Subject:{b.Subject}, Scores:");
+            foreach(var score in b.Scores)
             {
-                From = "Alice",
-                To = "Bob",
-                Amount = 100
-            };
-
-            CTransaction trB = new CTransaction
-            {
-                From = "Alice",
-                To = "Bob",
-                Amount = 100
-            };
-
-            Console.WriteLine(trA);
-            Console.WriteLine(trB);
-
-
-            //기본 equals()의 기본 구현은 내용 비교가 아닌 참고를 비교하므로 false출력
-            Console.WriteLine($"{trA.Equals(trB)}");
-
-
-
-
-
-            RTransaction tr1 = new RTransaction
-            {
-                From="Alice", To="Bob", Amount=100
-            };
-
-            RTransaction tr2 = new RTransaction
-            {
-                From = "Alice",
-                To = "Bob",
-                Amount = 100
-            };
-
-
-
-            Console.WriteLine(tr1);
-            Console.WriteLine(tr2);
-            Console.WriteLine($"{tr1.Equals(tr2)}");
+                Console.Write($"{score} ");
+            }
+            Console.WriteLine();
         }
     }
 }
