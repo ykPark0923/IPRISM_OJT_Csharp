@@ -2,35 +2,36 @@
 
 namespace Property
 {
-    class BirthdayInfo
+    record RTransaction
     {
-        public required string Name
-        {
-            get; set;
-        }
+        public string From { get; init; }
+        public string To { get; init; }
+        public int Amount { get; init; }
 
-        public DateTime Birthday
+        public override string ToString()
         {
-            get; init;
-        }
-        public int Age
-        {
-            get
-            {
-                return new DateTime(DateTime.Now.Subtract(Birthday).Ticks).Year;
-            }
+            return $"{From, -10}->{To,-10}: ${Amount}";
         }
     }
 
-    class MainApp
+        class MainApp
     {
         static void Main(string[] args)
         {
-            BirthdayInfo birth = new BirthdayInfo { Name = "서현", Birthday = new DateTime(1991, 6, 28)};
+            RTransaction tr1 = new RTransaction
+            {
+                From="Alice", To="Bob", Amount=100
+            };
 
-            Console.WriteLine($"Name : {birth.Name}");
-            Console.WriteLine($"Birthday : {birth.Birthday.ToShortDateString()}");
-            Console.WriteLine($"Age : {birth.Age}");
+            RTransaction tr2 = new RTransaction
+            {
+                From = "Alice",
+                To = "Chaile",
+                Amount = 100
+            };
+
+            Console.WriteLine(tr1);
+            Console.WriteLine(tr2);
         }
     }
 }
