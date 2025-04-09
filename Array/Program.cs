@@ -8,18 +8,14 @@ namespace ArrayTest
     {
         static void Main(string[] args)
         {
-            Stack stack = new Stack();
-            stack.Push(1);
-            stack.Push(1);
-            stack.Push(1);
-            stack.Push(1);
-            stack.Push(1);
-            stack.Push(1);
+            Hashtable ht = new Hashtable();
+            ht["book"] = "책";
+            ht["cook"] = "요리사";
+            ht["tweet"] = "지저귀다";
 
-            while (stack.Count > 0)
-            {
-                Console.WriteLine(stack.Pop());
-            }
+            Console.WriteLine(ht["book"]);
+            Console.WriteLine(ht["cook"]);
+            Console.WriteLine(ht["tweet"]);
         }
     }
 }
