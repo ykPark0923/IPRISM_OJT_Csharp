@@ -8,11 +8,25 @@ namespace ArrayTest
     {
         static void Main(string[] args)
         {
-            int[] arr = { 123, 456, 789 };
+            Hashtable ht = new Hashtable();
+            ht["name"] = "Alice";
+            ht["age"] = 25;
 
-            ArrayList list = new ArrayList(arr);
-            Stack stack = new Stack(arr);
-            Queue queue = new Queue(arr);
+            Console.WriteLine("Hashtable 출력:");
+            foreach (DictionaryEntry entry in ht)
+            {
+                Console.WriteLine($"{entry.Key}: {entry.Value}");
+            }
+
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict["language"] = "C#";
+            dict["level"] = "Intermediate";
+
+            Console.WriteLine("Dictionary 출력:");
+            foreach (var pair in dict)
+            {
+                Console.WriteLine($"{pair.Key}: {pair.Value}");
+            }
         }
     }
 }
