@@ -4,32 +4,53 @@ namespace Exception_
 {
     internal class Program
     {
+        static int Divide(int dividend, int divisor)
+        {
+            try
+            {
+                Console.WriteLine("Divide() 시작");
+                return dividend / divisor;
+            }
+            catch (DivideByZeroException e)
+            {
+                Console.WriteLine("Divide() 예외발생");
+                throw e;
+            }
+            finally
+            {
+                Console.WriteLine("Divide() 끝");
+            }
+        }
 
         static void Main(string[] args)
         {
             try
             {
-                // Nullable int 타입 변수 a 선언하고 null 할당 (a는 값이 없음을 의미)
-                int? a = null;
+                Console.WriteLine("피제수를 입력하세요. : ");
+                String temp = Console.ReadLine();
+                int dividend = Convert.ToInt32(temp);
 
-                // a가 null이 아니면 a의 값을 b에 할당하고,
-                // a가 null이면 ArgumentNullException 예외를 던짐
-                int b = a ?? throw new ArgumentNullException();
-            }
-            catch (ArgumentNullException e)
-            {
-                Console.WriteLine(e);
-            }
+                Console.WriteLine("제수를 입력하세요. : ");
+                 temp = Console.ReadLine();
+                int divisor = Convert.ToInt32(temp);
 
-            try
-            {
-                int[] array = new[] { 1, 2, 3 };
-                int index = 4;
-                int value = array[index >= 0 && index < 3 ? index : throw new IndexOutOfRangeException()];
+                Console.WriteLine("{0}/{1} = {2}", dividend, divisor, Divide(dividend, divisor));
             }
-            catch(IndexOutOfRangeException e)
+            catch(FormatException e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("에러 : "+e.Message);
+            }
+            catch (DivideByZeroException e)
+            {
+                Console.WriteLine("에러 : " + e.Message);
+            }
+            catch (TypeLoadException e)
+            {
+                Console.WriteLine("에러 : " + e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("프로그램을 종료합니다.");
             }
         }
     }
