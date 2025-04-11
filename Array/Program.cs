@@ -4,16 +4,60 @@ using System.Collections;
 
 namespace ArrayTest
 {
-    class MyEnumerator
+    class MyList : IEnumerable, IEnumerator
     {
-        int[] numbers = {1, 2, 3, 4};
+        private int[] array;
+        int position = -1;
+
+        public MyList()
+        {
+            array = new int[3];
+        }
+
+        public int this[int index]
+        {
+            get
+            {
+                return array[index];
+            }
+            set
+            {
+                if(index >= array.Length)
+                {
+                    Array.Resize<int>(ref array, index + 1);
+                    Console.WriteLine($"Array Resized : {array.Length}");
+                }
+                array[index] = value;
+            }
+        }
+
+        public object Current
+        {
+            get
+            {
+                return array[position];
+            }
+        }
+
+        public bool MoveNext()
+        {
+            if(position == array.Length - 1)
+            {
+                Reset();
+                return false;
+            }
+            position++;
+            return (position <array.Length);
+        }
+
+        public void Reset()
+        {
+            position = -1;
+        }
+
         public IEnumerator GetEnumerator()
         {
-            yield return numbers[0];
-            yield return numbers[1];
-            yield return numbers[2];
-            yield break;
-            yield return numbers[3];
+            return this;
         }
     }
 
@@ -21,11 +65,14 @@ namespace ArrayTest
     {
         static void Main(string[] args)
         {
-            var obj = new MyEnumerator();
-            foreach (int i in obj)
+            MyList list = new MyList();
+            for(int i = 0; i<5; i++)
             {
-                Console.WriteLine(i);
+                list[i] = i;
             }
+
+            foreach (int e in list)
+                Console.WriteLine(e);
         }
     }
 }
