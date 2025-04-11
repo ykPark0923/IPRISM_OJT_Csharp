@@ -1,72 +1,49 @@
 ﻿using System;
 using System.Linq;
 using System.IO; // 파일 및 디렉토리 관련 기능 제공
+using System.Text.Json;
+using System.Text;
 
 namespace FileAndDircectory // 오타: Directory → Directory 로 수정하는 것이 좋음
 {
+    class NameCard
+    {
+        public string Name { get; set; }
+        public string Phone { get; set; }
+        public int Age { get; set; }
+    }
+
     internal class Program
     {
-        // 잘못된 타입이 입력됐을 때 호출되는 함수
-        static void OnWrongPathType(string type)
-        {
-            Console.WriteLine($"{type} is wrong type"); // 에러 메시지 출력
-            return;
-        }
-
         static void Main(string[] args)
         {
-            // 인자가 아무것도 없을 경우 사용법 안내 메시지 출력
-            if (args.Length == 0)
+            var fileName = "a.json";
+
+            using (Stream ws = new FileStream(fileName, FileMode.Create))
             {
-                Console.WriteLine("Usage : Touch.exe <Path> [Type:File/Directory]");
-                return;
+                NameCard nc = new NameCard()
+                {
+                    Name = "박상현",
+                    Phone = "010-123-4567",
+                    Age = 33
+                };
+
+                string jsonString = JsonSerializer.Serialize<NameCard>(nc);
+                byte[] jsonBytes = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                ws.Write(jsonBytes, 0, jsonBytes.Length);
             }
 
-            // 첫 번째 인자: 대상 경로
-            string path = args[0];
-
-            // 두 번째 인자: 타입 (기본값은 "File")
-            string type = "File";
-            if (args.Length > 1) type = args[1];
-
-            // 지정한 경로가 파일 또는 디렉토리로 존재하는 경우
-            if (File.Exists(path) || Directory.Exists(path))
+            using(Stream rs = new FileStream(fileName, FileMode.Open))
             {
-                // 파일일 경우: 마지막 수정 시간을 현재 시각으로 갱신
-                if (type == "File")
-                    File.SetLastWriteTime(path, DateTime.Now);
+                byte[] jsonBytes = new byte[rs.Length];
+                rs.Read(jsonBytes, 0, jsonBytes.Length);
+                string jsonString = System.Text.Encoding.UTF8.GetString(jsonBytes);
 
-                // 디렉토리일 경우: 마지막 수정 시간을 현재 시각으로 갱신
-                else if (type == "Directory")
-                    Directory.SetLastWriteTime(path, DateTime.Now);
+                NameCard nc2 = JsonSerializer.Deserialize<NameCard>(jsonString); 
 
-                // 둘 다 아닌 경우: 잘못된 타입 처리
-                else
-                {
-                    OnWrongPathType(type); // 여기 원래는 type을 넘겨야 의미 맞음
-                    return;
-                }
-
-                Console.WriteLine($"Updated {path} {type}"); // 업데이트 완료 메시지
-            }
-            else // 경로가 존재하지 않는 경우 → 새로 생성
-            {
-                // 파일 생성
-                if (type == "File")
-                    File.Create(path).Close(); // Create는 스트림 반환 → Close() 필요
-
-                // 디렉토리 생성
-                else if (type == "Directory")
-                    Directory.CreateDirectory(path);
-
-                // 잘못된 타입
-                else
-                {
-                    OnWrongPathType(type);
-                    return;
-                }
-
-                Console.WriteLine($"Created {path} {type}"); // 생성 완료 메시지
+                Console.WriteLine($"Name: {nc2.Name}");
+                Console.WriteLine($"Phone: {nc2.Phone}");
+                Console.WriteLine($"Age: {nc2.Age}");
             }
         }
     }
