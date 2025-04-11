@@ -1,56 +1,62 @@
 ﻿using System;
 
 namespace Exception_
-{
+{    class InvalidArgumentException : Exception
+    {
+        public InvalidArgumentException()
+        {
+        }
+
+        public InvalidArgumentException(string message) : base(message) { }
+
+        public object Argument
+        {
+            get;
+            set;
+        }
+
+        public string Range
+        {
+
+            get; set;
+        }
+    }
+
     internal class Program
     {
-        static int Divide(int dividend, int divisor)
+        static uint MergeARGB(uint alpha, uint red, uint green, uint blue)
         {
-            try
+            uint[] args = new uint[] { alpha, red, green, blue };
+
+            foreach(uint arg in args)
             {
-                Console.WriteLine("Divide() 시작");
-                return dividend / divisor;
+                if (arg > 255)
+                    throw new InvalidArgumentException()
+                    {
+                        Argument = arg,
+                        Range = "0~255"
+                    };
             }
-            catch (DivideByZeroException e)
-            {
-                Console.WriteLine("Divide() 예외발생");
-                throw e;
-            }
-            finally
-            {
-                Console.WriteLine("Divide() 끝");
-            }
+
+            return (alpha << 24 & 0xFF000000) |
+                (red << 16 & 0x00FF0000) |
+                (green << 8 & 0x0000FF00) |
+                (blue & 0x000000FF);
+
         }
 
         static void Main(string[] args)
         {
             try
             {
-                Console.WriteLine("피제수를 입력하세요. : ");
-                String temp = Console.ReadLine();
-                int dividend = Convert.ToInt32(temp);
-
-                Console.WriteLine("제수를 입력하세요. : ");
-                 temp = Console.ReadLine();
-                int divisor = Convert.ToInt32(temp);
-
-                Console.WriteLine("{0}/{1} = {2}", dividend, divisor, Divide(dividend, divisor));
+                Console.WriteLine("0x{0:X}", MergeARGB(255, 111, 111, 111));
+                Console.WriteLine("0x{0:X}", MergeARGB(1, 65, 192, 128));
+                Console.WriteLine("0x{0:X}", MergeARGB(0, 255, 255, 300));
             }
-            catch(FormatException e)
+            catch(InvalidArgumentException e)
             {
-                Console.WriteLine("에러 : "+e.Message);
-            }
-            catch (DivideByZeroException e)
-            {
-                Console.WriteLine("에러 : " + e.Message);
-            }
-            catch (TypeLoadException e)
-            {
-                Console.WriteLine("에러 : " + e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("프로그램을 종료합니다.");
+                Console.WriteLine(e.Message);
+                Console.WriteLine($"Argument:{e.Argument}, Range:{e.Range}");
             }
         }
     }
