@@ -1,24 +1,32 @@
-﻿namespace Exception
+﻿using System;
+
+namespace Exception_
 {
     internal class Program
     {
+        static void DoSomething(int arg)
+        {
+            if (arg < 10)
+                Console.WriteLine($"arg : {arg}");
+            else
+                throw new Exception("arg가 10보다 큽니다.");
+        }
+
         static void Main(string[] args)
         {
-            int[] arr = { 1, 2, 3 };
-
             try
             {
-                for(int i=0; i<5; i++)
-                {
-                    Console.WriteLine(arr[i]);
-                }
+                DoSomething(1);
+                DoSomething(3);
+                DoSomething(5);
+                DoSomething(9);
+                DoSomething(11);
+                DoSomething(13);
             }
-            catch (IndexOutOfRangeException e)
+            catch (Exception e)
             {
-                Console.WriteLine($"예외가 발생했습니다 : {e.Message}");
+                Console.WriteLine(e.Message);
             }
-
-            Console.WriteLine("종료");
         }
     }
 }
