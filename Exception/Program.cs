@@ -1,62 +1,34 @@
 ﻿using System;
 
 namespace Exception_
-{    class InvalidArgumentException : Exception
+{
+    class FilterableException : Exception
     {
-        public InvalidArgumentException()
-        {
-        }
-
-        public InvalidArgumentException(string message) : base(message) { }
-
-        public object Argument
-        {
-            get;
-            set;
-        }
-
-        public string Range
-        {
-
-            get; set;
-        }
+        public int ErrorNo {  get; set; }
     }
 
     internal class Program
     {
-        static uint MergeARGB(uint alpha, uint red, uint green, uint blue)
-        {
-            uint[] args = new uint[] { alpha, red, green, blue };
-
-            foreach(uint arg in args)
-            {
-                if (arg > 255)
-                    throw new InvalidArgumentException()
-                    {
-                        Argument = arg,
-                        Range = "0~255"
-                    };
-            }
-
-            return (alpha << 24 & 0xFF000000) |
-                (red << 16 & 0x00FF0000) |
-                (green << 8 & 0x0000FF00) |
-                (blue & 0x000000FF);
-
-        }
-
         static void Main(string[] args)
         {
+            Console.WriteLine("Enter Number Between 0~10");
+            string input = Console.ReadLine();
             try
             {
-                Console.WriteLine("0x{0:X}", MergeARGB(255, 111, 111, 111));
-                Console.WriteLine("0x{0:X}", MergeARGB(1, 65, 192, 128));
-                Console.WriteLine("0x{0:X}", MergeARGB(0, 255, 255, 300));
+                int num = Int32.Parse(input);
+
+                if (num < 0 || num > 10)
+                    throw new FilterableException() { ErrorNo = num };
+                else
+                    Console.WriteLine($"Output: {num}");
             }
-            catch(InvalidArgumentException e)
+            catch (FilterableException e) when (e.ErrorNo < 0)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine($"Argument:{e.Argument}, Range:{e.Range}");
+                Console.WriteLine("Negative input is not allowed.");
+            }
+            catch (FilterableException e) when (e.ErrorNo > 10)
+            {
+                Console.WriteLine("Too big number is not allowed.");
             }
         }
     }
