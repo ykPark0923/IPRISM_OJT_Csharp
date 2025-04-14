@@ -10,6 +10,7 @@ namespace BasicThread
         const int LOOP_COUNT = 1000; // 증가/감소 루프 횟수 (상수)
 
         readonly object thisLock; // 임계 영역 보호를 위한 lock 객체
+        bool lockedCount = false;
 
         private int count; // 공유 자원 (스레드 간 충돌 방지를 위해 lock 필요)
 
@@ -33,16 +34,20 @@ namespace BasicThread
 
             while (loopCount-- > 0)
             {
-                Monitor.Enter(thisLock);  // 임계 영역 진입 - 다른 스레드는 동시에 접근 불가
-                try
+
+                lock (thisLock)
                 {
-                    count++;  // count를 증가시킴
+                    while (count > 0 || lockedCount == true)
+                    {
+                        Monitor.Wait(thisLock);
+                    }
+
+                    lockedCount = true;
+                    count++;
+                    lockedCount = false;
+
+                    Monitor.Pulse(thisLock);
                 }
-                finally
-                {
-                    Monitor.Exit(thisLock);  // 임계 영역 삭제
-                }
-                Thread.Sleep(1); // 1ms 쉬면서 CPU를 다른 스레드에 양보
             }
         }
 
@@ -53,16 +58,19 @@ namespace BasicThread
 
             while (loopCount-- > 0)
             {
-                Monitor.Enter(thisLock);  // 임계 영역 진입 - 다른 스레드는 동시에 접근 불가
-                try
+                lock (thisLock)
                 {
-                    count--;  // count를 증가시킴
+                    while (count < 0 || lockedCount == true)
+                    {
+                        Monitor.Wait(thisLock);
+                    }
+
+                    lockedCount = true;
+                    count--;
+                    lockedCount = false;
+
+                    Monitor.Pulse(thisLock);
                 }
-                finally
-                {
-                    Monitor.Exit(thisLock);  // 임계 영역 삭제
-                }
-                Thread.Sleep(1); // 1ms 쉬면서 CPU를 다른 스레드에 양보
             }
         }
     }
