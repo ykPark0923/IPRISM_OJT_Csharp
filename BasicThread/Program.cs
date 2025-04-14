@@ -7,44 +7,45 @@ namespace BasicThread
 {
     internal class Program
     {
-        // 비동기 메서드 정의: 호출한 쪽(Main → Caller)은 이 메서드가 완료될 때까지 기다리지 않음.
-        async static private void MyMethodAsync(int count)
+        static async Task<long> CopyAsync(string FromPath, string ToPath)
         {
-            Console.WriteLine("C"); // 출력 3
-            Console.WriteLine("D"); // 출력 4
-
-            // 비동기 작업 시작: 별도 스레드에서 루프를 돌며 0.1초마다 출력
-            await Task.Run(async () =>
+            using( var fromStream = new FileStream(FromPath, FileMode.Open))
             {
-                for (int i = 1; i <= count; i++)
+                long totalCopied = 0;
+
+                using (var toStream = new FileStream(ToPath, FileMode.Open))
                 {
-                    Console.WriteLine($"{i}/{count} ..."); // 출력 5~7: 1/3, 2/3, 3/3
-                    await Task.Delay(100); // 비동기 지연 (CPU 점유 X)
+                    byte[] buffer = new byte[1024];
+                    int nRead = 0;
+                    while((nRead = await fromStream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                    {
+                        await toStream.WriteAsync(buffer,0, nRead);
+                        totalCopied += nRead;
+                    }
                 }
-            });
 
-            // 비동기 루프가 끝난 후 실행되는 코드
-            Console.WriteLine("G"); // 출력 8
-            Console.WriteLine("H"); // 출력 9
+                return totalCopied;
+            }
         }
 
-        // Caller 함수는 MyMethodAsync를 호출하지만, await 하지 않기 때문에 다음 줄을 바로 실행
-        static void Caller()
+        static async void DoCopy(string FromPath, string ToPath)
         {
-            Console.WriteLine("A"); // 출력 1
-            Console.WriteLine("B"); // 출력 2
-
-            MyMethodAsync(3); // 비동기 호출 (await 하지 않음 → 바로 다음 줄 실행)
-
-            Console.WriteLine("E"); // 출력 5 (MyMethodAsync의 루프와 거의 동시에 실행될 수 있음)
-            Console.WriteLine("F"); // 출력 6
+            long totalCopied = await CopyAsync(FromPath, ToPath);
+            Console.WriteLine($"Copied Total {totalCopied} Bytes.");
         }
+       
 
         static void Main(string[] args)
         {
-            Caller(); // Caller 실행
+            if(args.Length < 2)
+            {
+                Console.WriteLine("Usage : AsyncFileIO <Source> <Destination>");
+                return;
+            }
 
-            Console.ReadLine(); // 콘솔 창 유지 → 비동기 출력이 끝날 때까지 사용자 입력 대기
+            DoCopy(args[0], args[1]);
+
+            Console.ReadLine();
         }
     }
 }
