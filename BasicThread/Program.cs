@@ -1,30 +1,64 @@
 ﻿using System;
-using System.Threading; // Thread 클래스와 관련 기능을 사용하기 위한 네임스페이스
+using System.Threading; // Thread 클래스 사용을 위한 네임스페이스
+using System.Security.Permissions;
 
 namespace BasicThread
 {
+    class SideTask
+    {
+        int count;
+
+        public SideTask(int count)
+        {
+            this.count = count;
+        }
+
+        public void KeepAlive()
+        {
+            try
+            {
+                Console.WriteLine("Running thread isn't gonna be interrupted");
+                Thread.Sleep(100);
+
+                while (count > 0)
+                {
+                    Console.WriteLine($"{count--} left");
+                    Console.WriteLine("Entering into WaitJoinSleep State...");
+                    Thread.Sleep(10);
+                }
+                Console.WriteLine("Count : 0");
+            }
+            catch (ThreadInterruptedException e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                Console.WriteLine("Clearning resource...");
+            }
+        }
+    }
 
     internal class Program
     {
-        private static void PrintThreadState(ThreadState state)
-        {
-            Console.WriteLine("{0, -16} : {1}", state, (int)state);
-        }
-
         static void Main(string[] args)
         {
-            PrintThreadState(ThreadState.Running);
-            PrintThreadState(ThreadState.StopRequested);
-            PrintThreadState(ThreadState.SuspendRequested);
-            PrintThreadState(ThreadState.Background);
-            PrintThreadState(ThreadState.Unstarted);
-            PrintThreadState(ThreadState.Stopped);
-            PrintThreadState(ThreadState.WaitSleepJoin);
-            PrintThreadState(ThreadState.Suspended);
-            PrintThreadState(ThreadState.AbortRequested);
-            PrintThreadState(ThreadState.Aborted);
-            PrintThreadState(ThreadState.Aborted|ThreadState.Stopped);
+            SideTask task = new SideTask(100);
+            Thread t1 = new Thread(new ThreadStart(task.KeepAlive));
+            t1.IsBackground = false;
 
+            Console.WriteLine("Starting thread...");
+            t1.Start();
+
+            Thread.Sleep(100);
+
+            Console.WriteLine("Interrupting thread...");
+            t1.Interrupt();
+
+            Console.WriteLine("Waiting until thread stops...");
+            t1.Join();
+
+            Console.WriteLine("Finished");
         }
     }
 }
