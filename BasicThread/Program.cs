@@ -1,48 +1,52 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading; // Thread 클래스 사용을 위한 네임스페이스
-using System.Security.Permissions; // (현재 코드에서 사용되지 않음, 생략 가능)
-using System.IO;
 using System.Threading.Tasks;
 
 namespace BasicThread
 {
     internal class Program
     {
+        static bool IsPrime(long number)
+        {
+            if(number<2) return false;
+
+            if (number % 2 == 0 && number != 2) return false;
+
+            for (long i = 2; i < number; i++)
+            {
+                if(number%i == 0)  return false;
+            }
+            return true;
+        }
+
+
         static void Main(string[] args)
         {
-            string srcFile = args[0];
+            long from = Convert.ToInt64(args[0]);
+            long to = Convert.ToInt64(args[1]);
 
-            Action<object> FileCopyAction = (object state) =>
+            Console.WriteLine("Please press enter to start...");
+            Console.WriteLine();
+            Console.WriteLine("Started...");
+
+            DateTime startTime = DateTime.Now;
+            List<long> total = new List<long>();
+
+            Parallel.For(from, to, (long i) =>
             {
-                String[] paths = (String[])state;
-                File.Copy(paths[0], paths[1]);
-
-                Console.WriteLine("TaskID:{0}, ThreadID:{1}, {2} was copied to {3}", Task.CurrentId,
-                    Thread.CurrentThread.ManagedThreadId, paths[0], paths[1]);
-            };
-
-            Task t1 = new Task(
-                FileCopyAction, new string[] { srcFile, srcFile + ".copy1" }
-                );
-
-
-            Task t2 = Task.Run(() =>
-            {
-                FileCopyAction(new string[] { srcFile, srcFile + ".copy2" });
+                if (IsPrime(i))
+                    lock (total)
+                        total.Add(i);
             });
 
-            t1.Start();
+            DateTime endTime = DateTime.Now;
 
-            Task t3 = new Task(
-                FileCopyAction, new string[] { srcFile, srcFile + ".copy3" }
-                );
+            TimeSpan elapsed = endTime - startTime;
 
-            t3.RunSynchronously();
+            Console.WriteLine("Prime number count between {0} and {1} : {2}", from, to, total.Count);
 
-            t1.Wait();
-            t2.Wait();
-            t3.Wait();
-
+            Console.WriteLine("Elapsed time : {0}", elapsed);
         }
     }
 }
