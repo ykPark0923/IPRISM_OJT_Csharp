@@ -33,9 +33,14 @@ namespace BasicThread
 
             while (loopCount-- > 0)
             {
-                lock (thisLock) // 임계 영역 진입 - 다른 스레드는 동시에 접근 불가
+                Monitor.Enter(thisLock);  // 임계 영역 진입 - 다른 스레드는 동시에 접근 불가
+                try
                 {
-                    count++;    // count를 증가시킴
+                    count++;  // count를 증가시킴
+                }
+                finally
+                {
+                    Monitor.Exit(thisLock);  // 임계 영역 삭제
                 }
                 Thread.Sleep(1); // 1ms 쉬면서 CPU를 다른 스레드에 양보
             }
@@ -48,9 +53,14 @@ namespace BasicThread
 
             while (loopCount-- > 0)
             {
-                lock (thisLock) // 임계 영역 진입 - count에 대한 접근을 보호
+                Monitor.Enter(thisLock);  // 임계 영역 진입 - 다른 스레드는 동시에 접근 불가
+                try
                 {
-                    count--;    // count를 감소시킴
+                    count--;  // count를 증가시킴
+                }
+                finally
+                {
+                    Monitor.Exit(thisLock);  // 임계 영역 삭제
                 }
                 Thread.Sleep(1); // 1ms 쉬면서 CPU를 다른 스레드에 양보
             }
