@@ -2,27 +2,31 @@
 
 namespace Delegate
 {
-    delegate int Compare<T>(T a, T b);
+    delegate int Compare(int a, int b);
 
     internal class Program
     {
-        static int AscendCompare<T>(T a, T b) where T : IComparable<T>
+        static int AscendCompare(int a, int b)
         {
-            return a.CompareTo(b);
+            if (a > b) return 1;
+            else if (a == b) return 0;
+            else return -1;
         }
 
         // 내림차순 비교 함수: a가 b보다 작으면 1, 같으면 0, 크면 -1 반환
-        static int DescendCompare<T>(T a, T b) where T : IComparable<T>
+        static int DescendCompare(int a, int b)
         {
-            return a.CompareTo(b)*-1;
+            if (a < b) return 1;
+            else if (a == b) return 0;
+            else return -1;
         }
 
         // 버블 정렬 함수: 배열과 비교 델리게이트를 받아서 해당 기준에 따라 정렬 수행
-        static void BubbleSort<T>(T[] DataSet, Compare<T> Comparer)
+        static void BubbleSort(int[] DataSet, Compare Comparer)
         {
             int i = 0;
             int j = 0;
-            T temp;
+            int temp = 0;
 
             // 바깥 루프는 전체 패스를 반복 (전체 길이 - 1만큼 반복)
             for (i = 0; i < DataSet.Length - 1; i++)
@@ -51,19 +55,29 @@ namespace Delegate
             Console.WriteLine("Sorting ascending....");
 
             // BubbleSort 호출 시, AscendCompare 메서드를 델리게이트로 전달
-            BubbleSort<int>(array, new Compare<int>(AscendCompare));
+            BubbleSort(array, delegate (int a, int b)
+            {
+                if (a > b) return 1;
+                else if (a == b) return 0;
+                else return -1;
+            });
 
             // 정렬된 결과 출력
             for (int i = 0; i < array.Length; i++)
                 Console.Write($"{array[i]} ");
 
             // 두 번째 정렬: 내림차순
-            string[] array2 = { "abc", "def", "ghi", "jkl", "mno" };
+            int[] array2 = { 7, 2, 8, 10, 11 };
 
             Console.WriteLine("\nSorting descending....");
 
             // BubbleSort 호출 시, DescendCompare 메서드를 델리게이트로 전달
-            BubbleSort<string>(array2, new Compare<string>(DescendCompare));
+            BubbleSort(array2, delegate (int a, int b)
+            {
+                if (a < b) return 1;
+                else if (a == b) return 0;
+                else return -1;
+            });
 
             // 정렬된 결과 출력
             for (int i = 0; i < array2.Length; i++)
