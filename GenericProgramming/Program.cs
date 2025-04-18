@@ -1,31 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace GenericProgramming
 {
-    public class Program
+    class MyList<T> : IEnumerable<T>, IEnumerator<T>
+    {
+        private T[] array;
+        int position = -1;
+        public MyList()
+        {
+            array = new T[3];
+        }
+
+        public T this[int index]
+        {
+            get { return array[index]; }
+            set
+            {
+                if (index >= array.Length)
+                {
+                    Array.Resize(ref array, index + 1);
+                    Console.WriteLine($"Array Resized : {array.Length}");
+                }
+
+                array[index] = value;
+            }
+        }
+
+        public int Length
+        {
+            get { return array.Length; }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this;
+        }
+
+        public T Current
+        {
+            get { return array[position]; }
+        }
+
+        object IEnumerator.Current
+        {
+            get { return array[position]; }
+        }
+
+        public bool MoveNext()
+        {
+            if (position == array.Length - 1)
+            {
+                Reset();
+                return false;
+            }
+
+            position++;
+            return (position < array.Length);
+        }
+
+        public void Reset()
+        {
+            position = -1;
+        }
+
+        public void Dispose() { }
+    }
+
+
+        public class Program
     {
         static void Main(string[] args)
         {
-            List<int> list = new List<int>();
-            for(int i=0; i<5; i++) list.Add(i);
+            MyList<string> str_list = new MyList<string>();
+            str_list[0] = "abc";
+            str_list[1] = "def";
+            str_list[2] = "jkl";
+            str_list[3] = "def";
+            str_list[4] = "mno";
 
-            foreach (int element in list) Console.Write($"{element} ");
+            foreach (string str in str_list) { Console.WriteLine(str); }
             Console.WriteLine();
 
+            MyList<int> int_list = new MyList<int>();
+            int_list[0] = 0;
+            int_list[1] = 1;
+            int_list[2] = 2;
+            int_list[3] = 3;
+            int_list[4] = 4;
 
-            list.RemoveAt(2);
-
-            foreach (int element in list) Console.Write($"{element} ");
-            Console.WriteLine();
-
-
-            list.Insert(2, 2);
-
-            foreach (int element in list) Console.Write($"{element} ");
-            Console.WriteLine();
-
-
+            foreach (int no in int_list) {Console.WriteLine(no);}
 
         }
     }
