@@ -19,11 +19,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Winform_Sync", "..\WindowsF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delegate", "..\Delegate\Delegate.csproj", "{FD6128EF-D52A-4E6A-B79B-DC119CE1686F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoServer", "..\Networking\EchoServer.csproj", "{4E56EC45-B051-4E4C-BD08-4E98D750526B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoServer", "..\Networking\EchoServer.csproj", "{4E56EC45-B051-4E4C-BD08-4E98D750526B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Networking", "Networking", "{7E1B637B-1254-4F05-A23A-BB17424EF2E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoClient", "..\EchoClient\EchoClient.csproj", "{F864BF3A-A5C1-4E54-BD2E-486A8E177EF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoClient", "..\EchoClient\EchoClient.csproj", "{F864BF3A-A5C1-4E54-BD2E-486A8E177EF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericProgramming", "..\GenericProgramming\GenericProgramming.csproj", "{DE254BD3-ED4B-4124-A73E-AB38AF27BAD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{F864BF3A-A5C1-4E54-BD2E-486A8E177EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F864BF3A-A5C1-4E54-BD2E-486A8E177EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F864BF3A-A5C1-4E54-BD2E-486A8E177EF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE254BD3-ED4B-4124-A73E-AB38AF27BAD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE254BD3-ED4B-4124-A73E-AB38AF27BAD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE254BD3-ED4B-4124-A73E-AB38AF27BAD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE254BD3-ED4B-4124-A73E-AB38AF27BAD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
